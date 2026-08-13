@@ -1,7 +1,16 @@
 spring:
     application:
         name: anime-service
+    threads:
+        virtual:
+            enabled: true
 
 server:
     servlet:
         context-path: /anime-service
+    error:
+        include-message: never
+    tomcat:
+        threads:
+            max: 20
+
