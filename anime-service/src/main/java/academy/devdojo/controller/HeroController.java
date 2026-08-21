@@ -1,5 +1,6 @@
 package academy.devdojo.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,26 +17,35 @@ public class HeroController {
     );
 
     @GetMapping()
-    public List<String> listAllHeroes(){
-        return Heroes;
+    public ResponseEntity<List<String>> listAllHeroes() {
+        return ResponseEntity.ok(Heroes);
     }
 
     @GetMapping("filter")
-    public List<String> listAllHeroesParam(@RequestParam(defaultValue = "") String name){
-        return Heroes.stream().filter(hero -> hero.equalsIgnoreCase(name)).toList();
+    public ResponseEntity<List<String>> listAllHeroesParam(@RequestParam(defaultValue = "") String name) {
+        var heroesFiltered = Heroes.stream()
+                .filter(hero -> hero.equalsIgnoreCase(name))
+                .toList();
+
+        return ResponseEntity.ok(heroesFiltered);
     }
 
     @GetMapping("filterList")
-    public List<String> listAllHeroesParamList(@RequestParam(defaultValue = "") List<String> names){
-        return Heroes.stream().filter(names::contains).toList();
+    public ResponseEntity<List<String>> listAllHeroesParamList(@RequestParam(defaultValue = "") List<String> names) {
+        var heroesFiltered = Heroes.stream()
+                .filter(names::contains)
+                .toList();
+
+        return ResponseEntity.ok(heroesFiltered);
     }
 
     @GetMapping("{name}")
-    public String findByName(@PathVariable String name){
-        return Heroes
-                .stream()
+    public ResponseEntity<String> findByName(@PathVariable String name) {
+        return Heroes.stream()
                 .filter(hero -> hero.equalsIgnoreCase(name))
-                .findFirst().orElse("");
+                .findFirst()
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
 }
