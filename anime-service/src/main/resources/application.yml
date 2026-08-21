@@ -5,6 +5,10 @@ spring:
         virtual:
             enabled: true
 
+logging:
+    level:
+        academy.devdojo: DEBUG
+
 server:
     servlet:
         context-path: /anime-service

@@ -1,6 +1,7 @@
 package academy.devdojo.controller;
 
 import academy.devdojo.domain.Producer;
+import academy.devdojo.mapper.ProducerMapper;
 import academy.devdojo.request.ProducerPostRequest;
 import academy.devdojo.response.ProducerGetResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import java.util.concurrent.ThreadLocalRandom;
 @RequestMapping("/v1/producers")
 @Slf4j
 public class ProducerController {
-
+    private static final ProducerMapper PRODUCER_MAPPER = ProducerMapper.INSTANCE;
     @GetMapping("")
     public List<Producer> listAll(@RequestParam(required = false) String name) {
         var producers = Producer.listAllProducers();
@@ -36,19 +37,10 @@ public class ProducerController {
     public ResponseEntity<ProducerGetResponse> createAnime(@RequestBody ProducerPostRequest producer,  @RequestHeader HttpHeaders headers) {
         log.info("{}", headers);
 
-        Producer newProducer = Producer.builder()
-                .id(ThreadLocalRandom.current().nextLong(1, 100000))
-                .name(producer.getName())
-                .createdAt(LocalDateTime.now())
-                .build();
+        var newProducer = PRODUCER_MAPPER.toProducer(producer);
+        var responseProducer = PRODUCER_MAPPER.toProducerGetResponse(newProducer);
 
         Producer.listAllProducers().add(newProducer);
-
-        ProducerGetResponse responseProducer = ProducerGetResponse.builder()
-                .id(newProducer.getId())
-                .name(newProducer.getName())
-                .createdAt(newProducer.getCreatedAt())
-                .build();
 
         return ResponseEntity.status(HttpStatus.CREATED).body(responseProducer);
     }
