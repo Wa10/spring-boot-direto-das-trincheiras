@@ -1,28 +1,14 @@
 package academy.devdojo.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Anime {
+    @EqualsAndHashCode.Include
     private Long id;
     private String name;
-
-    private static final List<Anime> ANIMES = new ArrayList<>();
-
-    static {
-        ANIMES.add(new Anime(1L, "DBZ"));
-        ANIMES.add(new Anime(2L, "Attack On Titan"));
-    }
-
-    public static List<Anime> listAllAnimes() {
-        return ANIMES;
-    }
-
 }

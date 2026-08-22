@@ -1,7 +1,6 @@
-package academy.devdojo.domain;
+package academy.devdojo.response;
 
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,11 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Producer {
-    @EqualsAndHashCode.Include
+public class ProducerPostResponse {
     private Long id;
     private String name;
     private LocalDateTime createdAt;
-
 }
