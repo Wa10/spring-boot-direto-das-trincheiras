@@ -3,6 +3,7 @@ package academy.devdojo.mapper;
 import academy.devdojo.domain.Anime;
 import academy.devdojo.domain.Producer;
 import academy.devdojo.request.AnimePostRequest;
+import academy.devdojo.request.AnimePutRequest;
 import academy.devdojo.request.ProducerPostRequest;
 import academy.devdojo.response.AnimeGetResponse;
 import academy.devdojo.response.AnimePostResponse;
@@ -19,6 +20,8 @@ public interface AnimeMapper {
 
     @Mapping(target = "id", expression = "java(java.util.concurrent.ThreadLocalRandom.current().nextLong(1, 100000))")
     Anime toAnime(AnimePostRequest animePostRequest);
+
+    Anime toAnime(AnimePutRequest animePutRequest);
 
     AnimePostResponse toAnimePostResponse(Anime Anime);
 
