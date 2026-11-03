@@ -23,10 +23,6 @@ public class AnimeService {
         return animeHardCodeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
     }
 
-    public List<Anime> findByName(String name) {
-        return animeHardCodeRepository.findByName(name);
-    }
-
     public Anime save(Anime anime) {
         return animeHardCodeRepository.save(anime);
     }
