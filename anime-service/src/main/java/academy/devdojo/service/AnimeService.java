@@ -1,7 +1,7 @@
 package academy.devdojo.service;
 
 import academy.devdojo.domain.Anime;
-import academy.devdojo.repository.AnimeHardCodeRepository;
+import academy.devdojo.repository.AnimeHardCodedRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AnimeService {
 
-    private final AnimeHardCodeRepository animeHardCodeRepository;
+    private final AnimeHardCodedRepository animeHardCodeRepository;
 
     public List<Anime> findAll(String name) {
         return name == null ? animeHardCodeRepository.findAll() : animeHardCodeRepository.findByName(name);

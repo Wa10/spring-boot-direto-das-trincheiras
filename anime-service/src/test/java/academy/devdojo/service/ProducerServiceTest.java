@@ -1,7 +1,8 @@
 package academy.devdojo.service;
 
+import academy.devdojo.commons.ProducerUtils;
 import academy.devdojo.domain.Producer;
-import academy.devdojo.repository.ProducerHardCodeRepository;
+import academy.devdojo.repository.ProducerHardCodedRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,15 +11,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.util.Collections.singletonList;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static java.util.Collections.singletonList;
 
 @ExtendWith(MockitoExtension.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -27,15 +26,14 @@ class ProducerServiceTest {
     @InjectMocks
     private ProducerService service;
     @Mock
-    private ProducerHardCodeRepository repository;
+    private ProducerHardCodedRepository repository;
     private List<Producer> producerList;
+    @InjectMocks
+    private ProducerUtils producerUtils;
 
     @BeforeEach
     void setUp() {
-        var mappa = Producer.builder().id(1L).name("Mappa").createdAt(LocalDateTime.now()).build();
-        var madhouse = Producer.builder().id(2L).name("Madhouse").createdAt(LocalDateTime.now()).build();
-
-        producerList = new ArrayList<>(List.of(mappa, madhouse));
+        producerList = producerUtils.newProducerList();
     }
 
     @Test
@@ -105,7 +103,7 @@ class ProducerServiceTest {
     @Order(6)
     @DisplayName("save creates a producer")
     void save_CreatesProducer_WhenSuccessful() {
-        var producerToSave = Producer.builder().id(99L).name("Ghibli").createdAt(LocalDateTime.now()).build();
+        var producerToSave = producerUtils.newProducerToSave();
 
         when(repository.save(producerToSave)).thenReturn(producerToSave);
 

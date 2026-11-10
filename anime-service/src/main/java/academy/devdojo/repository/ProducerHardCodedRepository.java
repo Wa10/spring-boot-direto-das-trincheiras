@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @RequiredArgsConstructor
 @Repository
-public class ProducerHardCodeRepository {
+public class ProducerHardCodedRepository {
 
     private final ProducerData producerData;
 

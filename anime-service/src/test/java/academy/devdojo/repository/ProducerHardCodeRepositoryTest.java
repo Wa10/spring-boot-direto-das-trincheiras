@@ -1,5 +1,6 @@
 package academy.devdojo.repository;
 
+import academy.devdojo.commons.ProducerUtils;
 import academy.devdojo.domain.Producer;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.*;
@@ -8,8 +9,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
@@ -19,17 +18,16 @@ import static org.mockito.Mockito.when;
 class ProducerHardCodeRepositoryTest {
 
     @InjectMocks
-    private ProducerHardCodeRepository repository;
-
+    private ProducerHardCodedRepository repository;
     @Mock
     private ProducerData producerData;
-
-    private final List<Producer> producerList = new ArrayList<>();
+    private List<Producer> producerList;
+    @InjectMocks
+    private ProducerUtils producerUtils;
 
     @BeforeEach
     void setUp() {
-        producerList.add(Producer.builder().id(1L).name("Mappa").createdAt(LocalDateTime.now()).build());
-        producerList.add(Producer.builder().id(2L).name("Madhouse").createdAt(LocalDateTime.now()).build());
+        producerList = producerUtils.newProducerList();
     }
 
     @Test
@@ -81,7 +79,7 @@ class ProducerHardCodeRepositoryTest {
     void save_CreatesProducer_WhenSuccessful() {
         when(producerData.getProducers()).thenReturn(producerList);
 
-        var producerToSave = Producer.builder().id(99L).name("Ghibli").createdAt(LocalDateTime.now()).build();
+        var producerToSave = producerUtils.newProducerToSave();
         var producer = repository.save(producerToSave);
 
         Assertions.assertThat(producer).isEqualTo(producerToSave).hasNoNullFieldsOrProperties();
